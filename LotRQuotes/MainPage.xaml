@@ -6,6 +6,7 @@
 
     <StackLayout>
         <ActivityIndicator IsVisible="{Binding Loading}" IsRunning="{Binding Loading}" />
+        <Label Text="{Binding Character.name}"/>
         <Label Text="{Binding Movie.name}"/>
         <ListView ItemsSource="{Binding Quotes}" CachingStrategy="RetainElement">
             <ListView.ItemTemplate>
@@ -17,6 +18,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <Picker ItemsSource="{Binding Pages}" SelectedItem="{Binding SelectedPage}" />
     </StackLayout>
 
 </ContentPage>

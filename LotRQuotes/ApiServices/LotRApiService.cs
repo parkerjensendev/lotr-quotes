@@ -30,9 +30,9 @@ namespace LotRQuotes.ApiServices
 			}
 		}
 
-		public static async Task<QuoteResponse> getQuotes()
+		public static async Task<QuoteResponse> getQuotes(int page = 1)
 		{
-			Uri uri = new Uri("https://the-one-api.dev/v2/quote");
+			Uri uri = new Uri($"https://the-one-api.dev/v2/quote?limit=25&page={page}");
 
 			HttpResponseMessage response = await Instance.GetAsync(uri);
 			if (response.IsSuccessStatusCode)
@@ -65,5 +65,22 @@ namespace LotRQuotes.ApiServices
 
 		}
 
+		public static async Task<Character> getCharacter(string characterId)
+		{
+			Uri uri = new Uri($"https://the-one-api.dev/v2/character/{characterId}");
+
+			HttpResponseMessage response = await Instance.GetAsync(uri);
+			if (response.IsSuccessStatusCode)
+			{
+				var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+				var characterResponse = JsonConvert.DeserializeObject<CharacterResponse>(responseContent);
+				return characterResponse.docs.First() ?? new Character();
+			}
+			else
+			{
+				return new Character();
+			}
+
+		}
 	}
 }
