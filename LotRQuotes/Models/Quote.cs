@@ -9,7 +9,6 @@ namespace LotRQuotes.Models
         public string dialog { get; set; }
         public string movie;
         public string character;
-        public string id;
 	}
 
     public class QuoteResponse

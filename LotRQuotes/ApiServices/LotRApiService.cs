@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using LotRQuotes.Models;
@@ -12,16 +13,28 @@ namespace LotRQuotes.ApiServices
 	//if I was doing this less quickly
 	public class LotRApiService
 	{
-		private static HttpClient _instance = new HttpClient();
+		private static HttpClient _instance;
+
+		private static HttpClient Instance
+		{
+			get
+			{
+				if (_instance == null)
+				{
+					_instance = new HttpClient();
+					//I would put this in config files or pull it from the server if I was doing this right.
+					_instance.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", "ArKxecgybWqdt767qKpB");
+				}
+
+				return _instance;
+			}
+		}
 
 		public static async Task<QuoteResponse> getQuotes()
 		{
-			//I would put this in config files or pull it from the server if I was doing this right.
-			_instance.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", "ArKxecgybWqdt767qKpB");
+			Uri uri = new Uri("https://the-one-api.dev/v2/quote");
 
-			Uri uri = new Uri(string.Format("https://the-one-api.dev/v2/quote", string.Empty));
-
-			HttpResponseMessage response = await _instance.GetAsync(uri);
+			HttpResponseMessage response = await Instance.GetAsync(uri);
 			if (response.IsSuccessStatusCode)
 			{
 				var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -30,6 +43,24 @@ namespace LotRQuotes.ApiServices
 			else
 			{
 				return new QuoteResponse();
+			}
+
+		}
+
+		public static async Task<Movie> getMovie(string movieId)
+		{
+			Uri uri = new Uri($"https://the-one-api.dev/v2/movie/{movieId}");
+
+			HttpResponseMessage response = await Instance.GetAsync(uri);
+			if (response.IsSuccessStatusCode)
+			{
+				var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+				var movieResponse = JsonConvert.DeserializeObject<MovieResponse>(responseContent);
+				return movieResponse.docs.First() ?? new Movie();
+			}
+			else
+			{
+				return new Movie();
 			}
 
 		}
