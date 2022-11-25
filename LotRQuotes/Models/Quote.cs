@@ -5,8 +5,8 @@ namespace LotRQuotes.Models
 {
 	public class Quote
     {
-        public string _id;
-        public string dialog;
+        public string _id { get; }
+        public string dialog { get; set; }
         public string movie;
         public string character;
         public string id;

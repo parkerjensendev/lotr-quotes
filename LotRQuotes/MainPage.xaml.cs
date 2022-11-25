@@ -5,23 +5,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LotRQuotes.ApiServices;
+using LotRQuotes.ViewModels;
 using Xamarin.Forms;
 
 namespace LotRQuotes
 {
 	public partial class MainPage : ContentPage
 	{
+		private MainPageViewModel viewModel;
 		public MainPage()
 		{
+			viewModel = new MainPageViewModel();
+			BindingContext = viewModel;
 			InitializeComponent();
-
-			Task.Run(GetQuotes);
 		}
 
-		private async Task GetQuotes()
+		protected override void OnAppearing()
 		{
-			var quotes = await LotRApiService.getQuotes();
-			System.Diagnostics.Debug.WriteLine($"QUOTES: {quotes.docs.Count}");
+			_ = Task.Run(viewModel.Initialize);
+			base.OnAppearing();
 		}
 	}
 }

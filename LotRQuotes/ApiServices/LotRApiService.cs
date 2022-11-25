@@ -8,16 +8,16 @@ using Newtonsoft.Json;
 
 namespace LotRQuotes.ApiServices
 {
+	//I'd probably implement a better api service here by using something like Refit if
+	//if I was doing this less quickly
 	public class LotRApiService
 	{
 		private static HttpClient _instance = new HttpClient();
 
-		private static JsonSerializer _serializer = new JsonSerializer();
-
 		public static async Task<QuoteResponse> getQuotes()
 		{
+			//I would put this in config files or pull it from the server if I was doing this right.
 			_instance.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", "ArKxecgybWqdt767qKpB");
-			//var response = await _instance.GetAsync("/quote");
 
 			Uri uri = new Uri(string.Format("https://the-one-api.dev/v2/quote", string.Empty));
 
