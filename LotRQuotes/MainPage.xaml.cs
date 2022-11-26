@@ -32,8 +32,15 @@ namespace LotRQuotes
 			bool justClose = await DisplayAlert(viewModel.Movie.name, $"\"{quote.dialog}\" - {viewModel.Character.name}", "Done", "Hide");
 			if (!justClose)
 			{
-				System.Diagnostics.Debug.WriteLine("We need to hide this bad boy");
+				viewModel.HideQuote(quote);
 			}
+		}
+
+		void MenuItem_Hide(System.Object sender, System.EventArgs e)
+		{
+			var item = sender as MenuItem;
+			var quote = item.CommandParameter as Quote;
+			viewModel.HideQuote(quote);
 		}
 	}
 }

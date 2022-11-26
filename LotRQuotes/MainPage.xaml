@@ -8,10 +8,13 @@
             <ListView ItemsSource="{Binding Quotes}" CachingStrategy="RetainElement" ItemTapped="ListView_ItemTapped">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell Text="{Binding dialog}"/>
-                                  <!--Command="{Binding Path=BindingContext.SelectQuote,
-                                            Source={x:Reference Name=page}}"
-                                  CommandParameter="{Binding .}"-->
+                        <TextCell Text="{Binding dialog}">
+                            <TextCell.ContextActions>
+                                <MenuItem Clicked="MenuItem_Hide"
+                                  CommandParameter="{Binding .}"
+                                  Text="Hide" IsDestructive="True" />
+                            </TextCell.ContextActions>
+                        </TextCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
