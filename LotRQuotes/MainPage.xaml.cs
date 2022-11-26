@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using LotRQuotes.ApiServices;
+using LotRQuotes.DatabaseServices;
 using LotRQuotes.Models;
 using LotRQuotes.ViewModels;
 using Xamarin.Forms;
@@ -11,7 +12,7 @@ namespace LotRQuotes
 		private readonly MainPageViewModel viewModel;
 		public MainPage()
 		{
-			viewModel = new MainPageViewModel(new LotRApiService());
+			viewModel = new MainPageViewModel(new LotRApiService(), new HideQuoteService());
 			BindingContext = viewModel;
 			InitializeComponent();
 		}

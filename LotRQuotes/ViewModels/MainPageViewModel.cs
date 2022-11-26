@@ -9,9 +9,6 @@ using LotRQuotes.ApiServices;
 using LotRQuotes.DatabaseServices;
 using LotRQuotes.Models;
 using Newtonsoft.Json;
-using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Essentials;
-using Xamarin.Forms;
 
 namespace LotRQuotes.ViewModels
 {

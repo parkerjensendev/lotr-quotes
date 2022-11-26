@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LotRQuotes.iOS", "LotRQuote
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LotRQuotes", "LotRQuotes\LotRQuotes.shproj", "{9E92AB63-3982-4CA5-B10B-FA7645AB65B0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{385936AE-1499-4F74-A1FA-07A1B26B3088}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,18 @@ Global
 		{A2FAFC4A-E03A-48C7-8BAD-4EBA4F132259}.Debug|iPhone.Build.0 = Debug|iPhone
 		{A2FAFC4A-E03A-48C7-8BAD-4EBA4F132259}.Release|iPhone.ActiveCfg = Release|iPhone
 		{A2FAFC4A-E03A-48C7-8BAD-4EBA4F132259}.Release|iPhone.Build.0 = Release|iPhone
+		{385936AE-1499-4F74-A1FA-07A1B26B3088}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{385936AE-1499-4F74-A1FA-07A1B26B3088}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{385936AE-1499-4F74-A1FA-07A1B26B3088}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{385936AE-1499-4F74-A1FA-07A1B26B3088}.Release|Any CPU.Build.0 = Release|Any CPU
+		{385936AE-1499-4F74-A1FA-07A1B26B3088}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{385936AE-1499-4F74-A1FA-07A1B26B3088}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{385936AE-1499-4F74-A1FA-07A1B26B3088}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{385936AE-1499-4F74-A1FA-07A1B26B3088}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{385936AE-1499-4F74-A1FA-07A1B26B3088}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{385936AE-1499-4F74-A1FA-07A1B26B3088}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{385936AE-1499-4F74-A1FA-07A1B26B3088}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{385936AE-1499-4F74-A1FA-07A1B26B3088}.Release|iPhone.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
