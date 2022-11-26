@@ -25,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ApiServices\LotRApiService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Movie.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Character.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DatabaseServices\HideQuoteService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)ViewModels\" />

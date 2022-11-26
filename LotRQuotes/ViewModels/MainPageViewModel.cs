@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using LotRQuotes.ApiServices;
+using LotRQuotes.DatabaseServices;
 using LotRQuotes.Models;
 using Newtonsoft.Json;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -19,6 +20,7 @@ namespace LotRQuotes.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
 
         private readonly ILotRApiService ApiService;
+        private readonly IHideQuoteService HideQuoteService;
 
         private List<Quote> quotes;
 
@@ -149,9 +151,10 @@ namespace LotRQuotes.ViewModels
         }
 
 
-        public MainPageViewModel(ILotRApiService apiService)
+        public MainPageViewModel(ILotRApiService apiService, IHideQuoteService hideQuoteService)
 		{
             ApiService = apiService;
+            HideQuoteService = hideQuoteService;
             Quotes = new List<Quote>();
 			Pages = new List<int>
 			{
@@ -164,18 +167,9 @@ namespace LotRQuotes.ViewModels
 
 		internal async Task Initialize()
 		{
-            Loading = true;
-            //I would not use preferences to persist hidden quote date really
-            //I would prefere to download the quotes to a database and add a column
-			//that is isHidden. So many perks to this: database is source of truth,
-            //offline capabilities, better info in the list of quotes (character image,
-            //movie image, et.), syncing between devices, etc.
-            if (!Preferences.ContainsKey("hiddenQuotes"))
-            {
-                Preferences.Set("hiddenQuotes", JsonConvert.SerializeObject(new List<string>()));
-            }
+            Loading = true;           
             var quoteResponse = await ApiService.GetQuotes(SelectedPage);
-            Quotes = quoteResponse.docs.ToList().FindAll(q => !JsonConvert.DeserializeObject<List<string>>(Preferences.Get("hiddenQuotes", "")).Contains(q._id));
+            Quotes = HideQuoteService.FilterQuotes(quoteResponse.docs.ToList());
             var pagesRange = Enumerable.Range(1, quoteResponse.pages).ToList();
             Pages = pagesRange;
             selectedPage = 1;
@@ -187,7 +181,7 @@ namespace LotRQuotes.ViewModels
 		{
             Loading = true;
             var quoteResponse = await ApiService.GetQuotes(SelectedPage);
-            Quotes = quoteResponse.docs.ToList().FindAll(q => !JsonConvert.DeserializeObject<List<string>>(Preferences.Get("hiddenQuotes", "")).Contains(q._id));
+            Quotes = HideQuoteService.FilterQuotes(quoteResponse.docs.ToList());
             Loading = false;
         }
 
@@ -210,9 +204,7 @@ namespace LotRQuotes.ViewModels
 
         public void HideQuote(Quote quote)
 		{
-            var hiddenQutoes = JsonConvert.DeserializeObject<List<string>>(Preferences.Get("hiddenQuotes", ""));
-            hiddenQutoes.Add(quote._id);
-            Preferences.Set("hiddenQuotes", JsonConvert.SerializeObject(hiddenQutoes));
+            HideQuoteService.AddQuoteToHide(quote);
             //this all stems from the observable range collection not workin for me and
             //me not wanting to waste too much time figuring out why
             var quoteListClone = JsonConvert.DeserializeObject<List<Quote>>(JsonConvert.SerializeObject(quotes));
