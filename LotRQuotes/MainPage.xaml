@@ -3,22 +3,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LotRQuotes.MainPage"
              x:Name="page">
-
-    <StackLayout>
-        <ActivityIndicator IsVisible="{Binding Loading}" IsRunning="{Binding Loading}" />
-        <Label Text="{Binding Character.name}"/>
-        <Label Text="{Binding Movie.name}"/>
-        <ListView ItemsSource="{Binding Quotes}" CachingStrategy="RetainElement">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextCell Text="{Binding dialog}"
-                              Command="{Binding Path=BindingContext.SelectQuote,
-                                        Source={x:Reference Name=page}}"
-                              CommandParameter="{Binding .}"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <Picker ItemsSource="{Binding Pages}" SelectedItem="{Binding SelectedPage}" />
-    </StackLayout>
+    <Grid>
+        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+            <ListView ItemsSource="{Binding Quotes}" CachingStrategy="RetainElement" ItemTapped="ListView_ItemTapped">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding dialog}"/>
+                                  <!--Command="{Binding Path=BindingContext.SelectQuote,
+                                            Source={x:Reference Name=page}}"
+                                  CommandParameter="{Binding .}"-->
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <StackLayout Orientation="Horizontal" Grid.Row="1" HorizontalOptions="CenterAndExpand">
+                <Label Text="Page: " VerticalOptions="Center"/>
+                <Picker ItemsSource="{Binding Pages}" SelectedItem="{Binding SelectedPage}" />
+            </StackLayout>
+        </StackLayout>
+        <ActivityIndicator IsVisible="{Binding Loading}" IsRunning="{Binding Loading}"
+                           VerticalOptions="Center" HorizontalOptions="Center"/>
+    </Grid>
 
 </ContentPage>

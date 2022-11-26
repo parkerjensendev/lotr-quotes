@@ -9,9 +9,15 @@ using Newtonsoft.Json;
 
 namespace LotRQuotes.ApiServices
 {
+	public interface ILotRApiService
+	{
+		public Task<QuoteResponse> GetQuotes(int page);
+		public Task<Movie> GetMovie(string movieId);
+		Task<Character> GetCharacter(string characterId);
+	}
 	//I'd probably implement a better api service here by using something like Refit if
 	//if I was doing this less quickly
-	public class LotRApiService
+	public class LotRApiService: ILotRApiService
 	{
 		private static HttpClient _instance;
 
@@ -30,7 +36,7 @@ namespace LotRQuotes.ApiServices
 			}
 		}
 
-		public static async Task<QuoteResponse> getQuotes(int page = 1)
+		public async Task<QuoteResponse> GetQuotes(int page = 1)
 		{
 			Uri uri = new Uri($"https://the-one-api.dev/v2/quote?limit=25&page={page}");
 
@@ -47,7 +53,7 @@ namespace LotRQuotes.ApiServices
 
 		}
 
-		public static async Task<Movie> getMovie(string movieId)
+		public async Task<Movie> GetMovie(string movieId)
 		{
 			Uri uri = new Uri($"https://the-one-api.dev/v2/movie/{movieId}");
 
@@ -65,7 +71,7 @@ namespace LotRQuotes.ApiServices
 
 		}
 
-		public static async Task<Character> getCharacter(string characterId)
+		public async Task<Character> GetCharacter(string characterId)
 		{
 			Uri uri = new Uri($"https://the-one-api.dev/v2/character/{characterId}");
 

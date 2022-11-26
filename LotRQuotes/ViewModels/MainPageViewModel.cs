@@ -16,6 +16,8 @@ namespace LotRQuotes.ViewModels
 	{
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private readonly ILotRApiService ApiService;
+
         private List<Quote> quotes;
 
         public List<Quote> Quotes
@@ -147,8 +149,9 @@ namespace LotRQuotes.ViewModels
         public ICommand SelectQuote { get; }
 
 
-        public MainPageViewModel()
+        public MainPageViewModel(ILotRApiService apiService)
 		{
+            ApiService = apiService;
             Quotes = new List<Quote>();
 			Pages = new List<int>
 			{
@@ -156,14 +159,14 @@ namespace LotRQuotes.ViewModels
 			};
             SelectedPage = 1;
 			movie = new Movie();
-            SelectQuote = new Command<Quote>(async (Quote quote) => await NavToQuote(quote));
+            //SelectQuote = new Command<Quote>(async (Quote quote) => await NavToQuote(quote));
 
         }
 
 		internal async Task Initialize()
 		{
             Loading = true;
-            var quoteResponse = await LotRApiService.getQuotes(SelectedPage);
+            var quoteResponse = await ApiService.GetQuotes(SelectedPage);
             Quotes = quoteResponse.docs.ToList();
             var pagesRange = Enumerable.Range(1, quoteResponse.pages).ToList();
             Pages = pagesRange;
@@ -175,7 +178,7 @@ namespace LotRQuotes.ViewModels
         private async Task SelectNewPage()
 		{
             Loading = true;
-            var quoteResponse = await LotRApiService.getQuotes(SelectedPage);
+            var quoteResponse = await ApiService.GetQuotes(SelectedPage);
             Quotes = quoteResponse.docs.ToList();
             Loading = false;
         }
@@ -185,7 +188,7 @@ namespace LotRQuotes.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public async Task NavToQuote(Quote quote)
+        public async Task LoadQuoteDetails(Quote quote)
 		{
             Loading = true;
             SelectedQuote = quote;
@@ -194,18 +197,16 @@ namespace LotRQuotes.ViewModels
                 FetchCharacter(quote.character)
             );
 
-            //ShowDetails(quote, Movie, Character
-
             Loading = false;
 		}
 
         public async Task FetchMovie(string movieId)
 		{
-            Movie = await LotRApiService.getMovie(movieId);
+            Movie = await ApiService.GetMovie(movieId);
         }
         public async Task FetchCharacter(string characterId)
         {
-            Character = await LotRApiService.getCharacter(characterId);
+            Character = await ApiService.GetCharacter(characterId);
         }
     }
 }
